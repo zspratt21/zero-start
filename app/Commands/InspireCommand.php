@@ -3,6 +3,8 @@
 namespace App\Commands;
 
 use App\Color;
+use App\Exceptions\DatabaseConnectionException;
+use App\Exceptions\MissingTableException;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
 
@@ -30,11 +32,14 @@ class InspireCommand extends Command
      */
     public function handle(): void
     {
-        if (Color::exists()) {
-            $random_color = Color::inRandomOrder()->first()->hex;
-            style('rc')->color($random_color);
-        } else {
-            style('rc')->color('#FFFFFF');
+        style('rc')->color('#FFFFFF');
+        try {
+            if (Color::exists()) {
+                $random_color = Color::inRandomOrder()->first()->hex;
+                style('rc')->color($random_color);
+            }
+        } catch (DatabaseConnectionException|MissingTableException) {
+            $this->warn('Run migrations and add some colors to get a random color when running this command.');
         }
         render(<<<'HTML'
             <div class="py-1 ml-2">

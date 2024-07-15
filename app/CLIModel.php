@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Exceptions\DatabaseConnectionException;
+use App\Exceptions\MissingTableException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Schema;
 use PDOException;
@@ -16,12 +18,12 @@ class CLIModel extends Model
     {
         try {
             Schema::getConnection()->getPdo();
-        } catch (PDOException $e) {
-            throw new RuntimeException('Unable to connect to the database. Please check your database configuration.');
+        } catch (PDOException) {
+            throw new DatabaseConnectionException();
         }
 
         if (! Schema::hasTable($this->getTable())) {
-            throw new RuntimeException("Table {$this->getTable()} does not exist. Please run migrations.");
+            throw new MissingTableException($this->getTable());
         }
 
         parent::__construct($attributes);

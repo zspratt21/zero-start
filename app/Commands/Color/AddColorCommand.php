@@ -3,6 +3,8 @@
 namespace App\Commands\Color;
 
 use App\Color;
+use App\Exceptions\DatabaseConnectionException;
+use App\Exceptions\MissingTableException;
 use LaravelZero\Framework\Commands\Command;
 
 class AddColorCommand extends Command
@@ -32,7 +34,7 @@ class AddColorCommand extends Command
                 'hex' => $this->argument('hex'),
             ]);
             $this->info("Color {$color->name} added successfully");
-        } catch (\Exception $e) {
+        } catch (DatabaseConnectionException|MissingTableException $e) {
             $this->error('Error adding color');
             $this->error($e->getMessage());
         }

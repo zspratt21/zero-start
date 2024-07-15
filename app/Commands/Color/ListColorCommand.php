@@ -3,6 +3,8 @@
 namespace App\Commands\Color;
 
 use App\Color;
+use App\Exceptions\DatabaseConnectionException;
+use App\Exceptions\MissingTableException;
 use LaravelZero\Framework\Commands\Command;
 
 class ListColorCommand extends Command
@@ -39,7 +41,7 @@ class ListColorCommand extends Command
             } else {
                 $this->warn('No colors found. Add some with the color:add command.');
             }
-        } catch (\Exception $e) {
+        } catch (DatabaseConnectionException|MissingTableException $e) {
             $this->error('Error listing colors');
             $this->error($e->getMessage());
         }

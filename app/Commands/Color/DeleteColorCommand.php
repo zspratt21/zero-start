@@ -3,7 +3,8 @@
 namespace App\Commands\Color;
 
 use App\Color;
-use Illuminate\Console\Scheduling\Schedule;
+use App\Exceptions\DatabaseConnectionException;
+use App\Exceptions\MissingTableException;
 use LaravelZero\Framework\Commands\Command;
 
 class DeleteColorCommand extends Command
@@ -35,7 +36,7 @@ class DeleteColorCommand extends Command
             } else {
                 $this->error('Color not found');
             }
-        } catch (\Exception $e) {
+        } catch (DatabaseConnectionException|MissingTableException $e) {
             $this->error('Error deleting color');
             $this->error($e->getMessage());
         }
