@@ -47,7 +47,7 @@ class UpdateColorCommand extends Command
             } else {
                 $this->error('Color not found');
             }
-        } catch (DatabaseConnectionException|MissingTableException $e) {
+        } catch (DatabaseConnectionException|MissingTableException|InvalidArgumentException $e) {
             $this->error('Error updating color');
             $this->error($e->getMessage());
         }

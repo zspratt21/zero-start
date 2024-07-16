@@ -34,7 +34,7 @@ class AddColorCommand extends Command
                 'hex' => $this->argument('hex'),
             ]);
             $this->info("Color {$color->name} added successfully");
-        } catch (DatabaseConnectionException|MissingTableException $e) {
+        } catch (DatabaseConnectionException|MissingTableException|InvalidArgumentException $e) {
             $this->error('Error adding color');
             $this->error($e->getMessage());
         }
