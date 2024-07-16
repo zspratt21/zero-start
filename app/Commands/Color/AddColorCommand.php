@@ -5,6 +5,7 @@ namespace App\Commands\Color;
 use App\Color;
 use App\Exceptions\DatabaseConnectionException;
 use App\Exceptions\MissingTableException;
+use InvalidArgumentException;
 use LaravelZero\Framework\Commands\Command;
 
 class AddColorCommand extends Command
