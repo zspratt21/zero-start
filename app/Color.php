@@ -18,8 +18,8 @@ class Color extends CLIModel
             get: fn (string $value) => ucfirst($value),
             set: function (string $value) {
                 $cleanedValue = trim(strtolower($value));
-                $existingColor = Color::where('name', $cleanedValue)->first();
-                if ($existingColor?->id !== $this->id) {
+                $existingQuery = Color::where('name', $cleanedValue);
+                if ($existingQuery->exists() && $existingQuery->first()?->id !== $this->id) {
                     $print_name = ucfirst($cleanedValue);
                     throw new InvalidArgumentException("Color with name $print_name already exists");
                 }
